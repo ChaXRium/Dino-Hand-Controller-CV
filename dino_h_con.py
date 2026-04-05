@@ -1,39 +1,56 @@
 import cv2
 import numpy as np
 
-def build_hand_tracker():
-    # Start the webcam
+def run_part_2():
     cap = cv2.VideoCapture(0)
 
     while True:
         ret, frame = cap.read()
-        if not ret: break
-
-        # 1. Image Enhancement: Flip the frame (Mirror effect)
         frame = cv2.flip(frame, 1)
-        
-        # 2. Define a "Region of Interest" (ROI) 
-        # This makes the code faster because it only looks at a small box
         roi = frame[100:400, 100:400]
         cv2.rectangle(frame, (100, 100), (400, 400), (0, 255, 0), 2)
 
-        # 3. Segmentation: Convert to HSV and filter for Skin Color
+        # --- Part 1 Recap: Segmentation ---
         hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-        
-        # These values work for most skin tones under normal light
         lower_skin = np.array([0, 20, 70], dtype=np.uint8)
         upper_skin = np.array([20, 255, 255], dtype=np.uint8)
-        
         mask = cv2.inRange(hsv, lower_skin, upper_skin)
-
-        # 4. Noise Reduction: Blur the mask to remove small dots
         mask = cv2.GaussianBlur(mask, (5, 5), 0)
 
-        # Show the windows
-        cv2.imshow("Main Feed", frame)
-        cv2.imshow("Hand Mask", mask)
+        # --- Part 2: Feature Extraction (New) ---
+        # 1. Find the Contours (the edge of the hand)
+        contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        # Press 'q' to stop
+        if len(contours) > 0:
+            # Pick the largest contour (the hand)
+            hand_contour = max(contours, key=cv2.contourArea)
+
+            # 2. Draw the Convex Hull (The 'Rubber Band')
+            hull = cv2.convexHull(hand_contour)
+            cv2.drawContours(roi, [hull], -1, (255, 0, 0), 2) # Blue line
+
+            # 3. Find Convexity Defects (The 'Valleys')
+            hull_indices = cv2.convexHull(hand_contour, returnPoints=False)
+            defects = cv2.convexityDefects(hand_contour, hull_indices)
+
+            finger_count = 0
+            if defects is not None:
+                for i in range(defects.shape[0]):
+                    s, e, f, d = defects[i, 0]
+                    start = tuple(hand_contour[s][0])
+                    end = tuple(hand_contour[e][0])
+                    far = tuple(hand_contour[f][0])
+
+                    # Only count deep valleys (ignore noise)
+                    if d > 10000:
+                        finger_count += 1
+                        cv2.circle(roi, far, 5, [0, 0, 255], -1) # Red dots for gaps
+
+                # Display the count
+                cv2.putText(frame, f"Fingers: {finger_count + 1}", (10, 50), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+
+        cv2.imshow("Main Feed", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -41,4 +58,4 @@ def build_hand_tracker():
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    build_hand_tracker()
+    run_part_2()

@@ -38,3 +38,36 @@ def create_individual(lr, filters):
         metrics=['accuracy']
     )
     return model
+def create_individual(lr, filters):
+    model = models.Sequential([
+        layers.Input(shape=(IMG_SIZE[0], IMG_SIZE[1], 3)),
+        layers.Rescaling(1./255),
+        layers.Conv2D(filters, (3, 3), activation='relu'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Flatten(),
+        layers.Dense(64, activation='relu'),
+        layers.Dropout(0.5),
+        layers.Dense(1, activation='sigmoid')
+    ])
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(learning_rate=lr),
+        loss='binary_crossentropy', 
+        metrics=['accuracy']
+    )
+    return model
+
+# Main Evolutionary Loop
+if __name__ == "__main__":
+    train_ds = load_data()
+    best_accuracy = 0
+    
+    print("Running Evolutionary Optimization...")
+    for lr in LEARNING_RATES:
+        for f in FILTER_SIZES:
+            model = create_individual(lr, f)
+            history = model.fit(train_ds, epochs=2, verbose=1) 
+            acc = max(history.history['accuracy'])
+            
+            if acc > best_accuracy:
+                best_accuracy = acc
+                print(f"⭐ New Fittest Found! Accuracy: {acc:.4f} (LR: {lr}, Filters: {f})")

@@ -25,8 +25,8 @@ while True:
     # 2. Prediction
     prediction = model.predict(img, verbose=0)[0][0]
     
-    # Binary Threshold (0.5)
-    if prediction > 0.5:
+    # Binary Threshold (0.3)
+    if prediction > 0.3:
         label = "JUMP"
         color = (0, 255, 0)
         pyautogui.press('space') # Trigger the jump!

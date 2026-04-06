@@ -25,11 +25,6 @@ def create_individual(lr, filters):
     model = models.Sequential([
         layers.Input(shape=(64, 64, 3)),
         layers.Rescaling(1./255),
-        
-def create_individual(lr, filters):
-    model = models.Sequential([
-        layers.Input(shape=(IMG_SIZE[0], IMG_SIZE[1], 3)),
-        layers.Rescaling(1./255),
         layers.Conv2D(filters, (3, 3), activation='relu'),
         layers.MaxPooling2D((2, 2)),
         layers.Flatten(),
@@ -44,18 +39,25 @@ def create_individual(lr, filters):
     )
     return model
 
-# Main Evolutionary Loop
-if __name__ == "__main__":
-    train_ds = load_data()
-    best_accuracy = 0
-    
-    print("Running Evolutionary Optimization...")
-    for lr in LEARNING_RATES:
-        for f in FILTER_SIZES:
-            model = create_individual(lr, f)
-            history = model.fit(train_ds, epochs=2, verbose=1) 
-            acc = max(history.history['accuracy'])
-            
-            if acc > best_accuracy:
-                best_accuracy = acc
-                print(f"⭐ New Fittest Found! Accuracy: {acc:.4f} (LR: {lr}, Filters: {f})")
+# 3. --- EVOLUTIONARY LOOP ---
+print("Running Evolutionary Optimization...")
+best_accuracy = 0
+best_config = {}
+
+for lr in learning_rates:
+    for f in filter_sizes:
+        print(f"Testing Individual -> LR: {lr}, Filters: {f}...")
+        model = create_individual(lr, f)
+        
+        # Fitness Test (2 epochs is enough to see potential)
+        history = model.fit(train_ds, epochs=2, verbose=0) 
+        acc = max(history.history['accuracy'])
+        
+        if acc > best_accuracy:
+            best_accuracy = acc
+            best_config = {'lr': lr, 'filters': f}
+            print(f"⭐ New Fittest Individual Found! Accuracy: {acc:.4f}")
+
+print("\n--- OPTIMIZATION COMPLETE ---")
+print(f"Best Fitness Score: {best_accuracy:.4f}")
+print(f"Optimal Genotype (Config): {best_config}")

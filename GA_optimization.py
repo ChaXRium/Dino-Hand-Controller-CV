@@ -25,19 +25,7 @@ def create_individual(lr, filters):
     model = models.Sequential([
         layers.Input(shape=(64, 64, 3)),
         layers.Rescaling(1./255),
-        layers.Conv2D(filters, (3, 3), activation='relu'),
-        layers.MaxPooling2D((2, 2)),
-        layers.Flatten(),
-        layers.Dense(64, activation='relu'),
-        layers.Dropout(0.5),
-        layers.Dense(1, activation='sigmoid')
-    ])
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=lr),
-        loss='binary_crossentropy', 
-        metrics=['accuracy']
-    )
-    return model
+        
 def create_individual(lr, filters):
     model = models.Sequential([
         layers.Input(shape=(IMG_SIZE[0], IMG_SIZE[1], 3)),

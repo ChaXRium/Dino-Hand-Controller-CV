@@ -62,14 +62,6 @@ Training results and graphs are saved as `final_training_graph.png`.
 
 ![Training Graph](final_training_graph.png)
 
-*(Add a GIF or screenshot of the live demo here once recorded)*
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-- Open an issue for bugs or suggestions
-- Fork the project and submit pull requests
-- Improve gesture accuracy or add new gestures
 
 ## 📄 License
 
@@ -81,15 +73,3 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 If you found this project useful, please give it a ⭐ on GitHub!
 
----
-
-You can now copy the entire content above and save it as `README.md` in your repository.
-
-Would you like me to make any changes? For example:
-- Add specific gesture descriptions?
-- Make it shorter?
-- Add badges (stars, forks, etc.)?
-- Include installation for additional libraries?
-
-Just tell me and I'll update it instantly! 🚀
-```

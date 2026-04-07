@@ -25,6 +25,15 @@ Built with **Python** and **OpenCV**, this project uses hand segmentation, conto
 
 ## 📁 Project Structure
 
+Dino-Hand-Controller-CV/
+├── dataset/                  # Sample hand images (if any)
+├── GA_optimization.py        # Genetic Algorithm for parameter tuning
+├── Train.py                  # Training and processing script
+├── imgcap.py                 # Webcam image capture utility
+├── dino_con.py               # Main Dino game controller
+├── final_training_graph.png  # Visualization of training results
+├── README.md
+└── requirements.txt
 
 ## 🚀 Installation
 

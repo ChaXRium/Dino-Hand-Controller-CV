@@ -1,3 +1,32 @@
+# Dino Hand Controller CV 🦖✋
+
+A real-time **touchless hand gesture controller** for the Chrome Dino Game using Computer Vision. Control the dinosaur by simply moving your hand in front of the webcam — no keyboard required!
+
+Built with **Python** and **OpenCV**, this project uses hand segmentation, contour analysis, and convexity defects to detect gestures and simulate keyboard inputs.
+
+![Demo](https://via.placeholder.com/800x400/0066cc/ffffff?text=Dino+Hand+Controller+Demo)
+
+## ✨ Features
+
+- Real-time hand gesture recognition using webcam
+- Background subtraction and hand segmentation with **Otsu’s Binarization**
+- Finger detection using **Convexity Defects**
+- Automatic gesture classification
+- Simulated keyboard control for Chrome Dino (Jump / Duck)
+- Genetic Algorithm based parameter optimization
+- Modular and easy-to-extend codebase
+
+## 🛠️ Technologies Used
+
+- Python
+- OpenCV
+- NumPy
+- Genetic Algorithm (for optimization)
+- Keyboard simulation (pyautogui / pynput)
+
+## 📁 Project Structure
+
+
 ## 🚀 Installation
 
 1. Clone the repository:

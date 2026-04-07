@@ -4,7 +4,6 @@ A real-time **touchless hand gesture controller** for the Chrome Dino Game using
 
 Built with **Python** and **OpenCV**, this project uses hand segmentation, contour analysis, and convexity defects to detect gestures and simulate keyboard inputs.
 
-![Demo](https://via.placeholder.com/800x400/0066cc/ffffff?text=Dino+Hand+Controller+Demo)
 
 ## ✨ Features
 
